@@ -61,13 +61,13 @@ python3 scripts/verify_catalog.py --check-urls
 
 `release.sh` runs `verify_catalog.py --upstream` as a hard gate, attaches all
 entry artifacts + `assets/*` to a **draft** GitHub release on
-`fluixa-project/fluixa-runtimes`, and prints the Gitee checklist.
+`fluixa/fluixa-runtimes`, and prints the Gitee checklist.
 
 ## GitHub (primary)
 
-- Repo: `fluixa-project/fluixa-runtimes`, branch `main`, `catalog.json` at the
+- Repo: `fluixa/fluixa-runtimes`, branch `main`, `catalog.json` at the
   repo root — this IS the consumer's `DEFAULT_CATALOG_URL`
-  (`raw.githubusercontent.com/fluixa-project/fluixa-runtimes/main/catalog.json`).
+  (`raw.githubusercontent.com/fluixa/fluixa-runtimes/main/catalog.json`).
 - Release assets via `gh release create <tag> --draft …` (see `scripts/release.sh`).
 
 ## Gitee (mirror 1)
@@ -76,16 +76,16 @@ Manual (web) or API with `GITEE_TOKEN`:
 
 ```sh
 # create release
-curl -X POST "https://gitee.com/api/v5/repos/fluixa-project/fluixa-runtimes/releases" \
+curl -X POST "https://gitee.com/api/v5/repos/fluixa/fluixa-runtimes/releases" \
   -H "Content-Type: application/json" \
   -d '{"access_token":"…","tag_name":"python-3.11.10","name":"Runtime python-3.11.10","target_commitish":"main"}'
 # upload attachment (per file; release_id from the create response)
-curl -X POST "https://gitee.com/api/v5/repos/fluixa-project/fluixa-runtimes/releases/<release_id>/attach_files" \
+curl -X POST "https://gitee.com/api/v5/repos/fluixa/fluixa-runtimes/releases/<release_id>/attach_files" \
   -H "Content-Type: multipart/form-data" -H "access_token: …" -F "file=@<path>"
 ```
 
 The public download URL then matches the catalog entry:
-`https://gitee.com/fluixa-project/fluixa-runtimes/releases/download/<tag>/<asset>`.
+`https://gitee.com/fluixa/fluixa-runtimes/releases/download/<tag>/<asset>`.
 
 ## Official CDN (future)
 

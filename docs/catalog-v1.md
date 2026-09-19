@@ -29,8 +29,8 @@ disagree, the Rust code wins and this doc must be fixed.
   "size": 18011078,
   "sha256": "575b49a7aa64e97b06de605b7e947033bf2310b5bc5f9aedb9859d4745033d91",
   "urls": [
-    "https://github.com/fluixa-project/fluixa-runtimes/releases/download/<tag>/<asset>",
-    "https://gitee.com/fluixa-project/fluixa-runtimes/releases/download/<tag>/<asset>",
+    "https://github.com/fluixa/fluixa-runtimes/releases/download/<tag>/<asset>",
+    "https://gitee.com/fluixa/fluixa-runtimes/releases/download/<tag>/<asset>",
     "https://github.com/astral-sh/python-build-standalone/releases/download/20241016/<asset>"
   ],
   "entrypoints": {

@@ -11,7 +11,7 @@ on any Fluixa component. The consumer (`fluixa` main repo,
 `crates/runtime-store`) discovers this catalog at:
 
 ```
-https://raw.githubusercontent.com/fluixa-project/fluixa-runtimes/main/catalog.json
+https://raw.githubusercontent.com/fluixa/fluixa-runtimes/main/catalog.json
 ```
 
 (override with `FLUIXA_RUNTIME_CATALOG` — URL or local file).
@@ -70,7 +70,7 @@ the installer — the catalog itself stays pure metadata.
 | node | — | — | protocol-reserved only, no entries |
 
 Download sources for `python@3.11.10:darwin-x86_64` (ordered fallback):
-1. GitHub release `fluixa-project/fluixa-runtimes` `python-3.11.10` — **pending publication**
+1. GitHub release `fluixa/fluixa-runtimes` `python-3.11.10` — **pending publication**
 2. Gitee mirror — **pending publication**
 3. upstream `astral-sh/python-build-standalone` `20241016` — **live bootstrap source**
 

@@ -44,7 +44,7 @@ python3 scripts/gen_catalog.py
 echo "==> 4/4 GitHub draft release"
 command -v gh >/dev/null 2>&1 || {
     echo "gh CLI not found — create the release manually:"
-    echo "  repo: fluixa-project/fluixa-runtimes  tag: $TAG"
+    echo "  repo: fluixa/fluixa-runtimes  tag: $TAG"
     echo "  assets:$ASSET_FILES"
     exit 2
 }
@@ -62,10 +62,10 @@ NOTES="$(mktemp /tmp/fluixa-release-XXXX.md)"
     echo "Mirrors serve identical bytes; SHA-256 is the identity (catalog.json)."
     echo "Origin: python-build-standalone $TAG release (upstream SHA256SUMS cross-checked)."
 } > "$NOTES"
-gh release create "$TAG" --draft --title "Runtime $TAG" --notes-file "$NOTES" $ASSET_FILES
+gh release create -R fluixa/fluixa-runtimes "$TAG" --draft --title "Runtime $TAG" --notes-file "$NOTES" $ASSET_FILES
 rm -f "$NOTES"
 echo ""
 echo "Published (draft). After review: publish the release, then mirror to Gitee:"
-echo "  1. Gitee repo fluixa-project/fluixa-runtimes → 发行版 → 新建 $TAG"
+echo "  1. Gitee repo fluixa/fluixa-runtimes → 发行版 → 新建 $TAG"
 echo "  2. upload the SAME files (bytes must be identical; SHA-256 enforced downstream)"
 echo "  3. verify mirrors: python3 scripts/verify_catalog.py --check-urls"
