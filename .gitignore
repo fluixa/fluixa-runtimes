@@ -1,18 +1,6 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
-
-# Other files and folders
-.settings/
-
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
-
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# Runtime artifacts are re-downloadable from the catalog urls[] — they live
+# in GitHub/Gitee Release assets, not in git history (verify with:
+#   python3 scripts/verify_catalog.py --fetch
+# which populates artifacts/ locally).
+artifacts/
+.DS_Store
