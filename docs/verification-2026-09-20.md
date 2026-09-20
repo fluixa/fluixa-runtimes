@@ -1,5 +1,8 @@
 # Compatibility Verification — 2026-09-20 (Gitee mirror filename)
 
+> Verification records are kept English-only by convention (see README
+> Documentation index); 中文导读见 [README.zh-CN.md](../README.zh-CN.md).
+
 Follow-up to [verification-2026-09-19.md](./verification-2026-09-19.md):
 the Gitee release was published and immediately exposed a mirror-side
 filename transformation. Scope of the fix: distribution layer only —

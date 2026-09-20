@@ -1,5 +1,7 @@
 # fluixa-runtimes
 
+> 简体中文版本：[README.zh-CN.md](./README.zh-CN.md)
+
 Fluixa Runtime Distribution — the independent distribution layer for Fluixa
 runtime artifacts. **Catalog → Artifact → SHA-256 verify → GitHub / Gitee /
 future CDN → Fluixa Runtime Installer → `~/.fluixa/runtimes/` → Runtime
@@ -15,6 +17,13 @@ https://raw.githubusercontent.com/fluixa/fluixa-runtimes/main/catalog.json
 ```
 
 (override with `FLUIXA_RUNTIME_CATALOG` — URL or local file).
+
+## Repository locations
+
+```text
+GitHub: fluixa/fluixa-runtimes
+Gitee:  fluixa/fluixa-runtimes
+```
 
 ## Repository layout
 
@@ -61,24 +70,23 @@ The installer copies the auxiliary files (`assets/yt-dlp-zipimport`,
 same files inside its bundle (byte-identical, same SHA-256) and passes them to
 the installer — the catalog itself stays pure metadata.
 
-## Current status (bootstrap)
+## Current status
 
 | kind | version | platform-arch | state |
 |---|---|---|---|
-| python | 3.11.10 | darwin-x86_64 | **published below, verified end-to-end** |
+| python | 3.11.10 | darwin-x86_64 | **published, verified end-to-end** |
 | python | 3.11.10 | darwin-aarch64 / windows-x86_64 / linux-* | not built yet |
 | node | — | — | protocol-reserved only, no entries |
 
 Download sources for `python@3.11.10:darwin-x86_64` (ordered fallback):
-1. GitHub release `fluixa/fluixa-runtimes` `python-3.11.10` — **pending publication**
+1. GitHub release `fluixa/fluixa-runtimes` `python-3.11.10` — **published**
 2. Gitee mirror — **published** (Gitee renames `+` → space in asset names;
    the catalog URL uses the actual name, `%20`-encoded — see docs/release.md)
-3. upstream `astral-sh/python-build-standalone` `20241016` — **live fallback source**
+3. upstream `astral-sh/python-build-standalone` `20241016` — **same-bytes fallback source**
 
-Until (1) is published, installs fall through to Gitee / the upstream
-source; SHA-256 (`575b49a7…`) makes every source byte-identical by
-construction (mirror filename renames included). `verify_catalog.py
---check-urls` reports pending sources as WARN.
+All three sources are verified byte-identical: SHA-256 (`575b49a7…`) is the
+artifact's identity (mirror filename renames included). `verify_catalog.py
+--check-urls` probes every source; unpublished sources are reported as WARN.
 
 ## Security invariants
 
@@ -91,6 +99,20 @@ construction (mirror filename renames included). `verify_catalog.py
   anything, or bypass verification.
 - Schema versioning is deterministic: `spec_version != 1` is a hard parse
   failure in the consumer.
+
+## Documentation
+
+English:
+
+- Release Guide — [docs/release.md](./docs/release.md)
+- Catalog V1 — [docs/catalog-v1.md](./docs/catalog-v1.md)
+- Verification Records — [docs/verification-2026-09-20.md](./docs/verification-2026-09-20.md)
+
+简体中文:
+
+- Release 发布指南 — [docs/release.zh-CN.md](./docs/release.zh-CN.md)
+- Catalog V1 规范 — [docs/catalog-v1.zh-CN.md](./docs/catalog-v1.zh-CN.md)
+- Verification 验证记录 — [docs/verification-2026-09-20.md](./docs/verification-2026-09-20.md)（英文）
 
 ## Compatibility
 

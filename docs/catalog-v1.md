@@ -1,5 +1,7 @@
 # Runtime Catalog V1 — Schema Spec
 
+> 简体中文版本：[catalog-v1.zh-CN.md](./catalog-v1.zh-CN.md)
+
 Consumer baseline: `fluixa/crates/runtime-store` `CATALOG_SPEC_VERSION = 1`
 (RTS-V1.1). This document mirrors the consumer's semantics 1:1 — when they
 disagree, the Rust code wins and this doc must be fixed.

@@ -1,5 +1,7 @@
 # Release & Mirroring
 
+> 简体中文版本：[release.zh-CN.md](./release.zh-CN.md)（含首次发布实际走通的完整 Runbook）
+
 ## Naming conventions
 
 ### Artifact file name
