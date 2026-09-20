@@ -10,8 +10,9 @@ Usage:
                                                # first (curl; honours ALL_PROXY/https_proxy)
 
 Entry → local artifact convention (see docs/catalog-v1.md):
-  asset name = basename(urls[k]) minus ?query/#fragment — ALL urls of one entry
-               must share the same basename (mirrors serve the same bytes)
+  asset name = basename(urls[0]) minus ?query/#fragment — mirrors serve the
+               same bytes (sha256-pinned); Gitee renames '+' → space, which
+               is tolerated (catalog stores the actual name, %20-encoded)
   artifacts/<kind>/<version>/<asset-name>
 """
 

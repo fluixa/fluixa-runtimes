@@ -37,7 +37,8 @@ assets for every `platform-arch` of that entry are attached to the same tag.
 
 Every platform-arch archive of the entry + the auxiliary `assets/*` files.
 GitHub and Gitee releases must carry **byte-identical** files — SHA-256 is
-checked downstream and a mismatching mirror aborts installs.
+checked downstream and a mismatching mirror aborts installs. File **names**
+may differ only through documented mirror transformations (see below).
 
 ## Platform matrix
 
@@ -84,8 +85,32 @@ curl -X POST "https://gitee.com/api/v5/repos/fluixa/fluixa-runtimes/releases/<re
   -H "Content-Type: multipart/form-data" -H "access_token: …" -F "file=@<path>"
 ```
 
-The public download URL then matches the catalog entry:
-`https://gitee.com/fluixa/fluixa-runtimes/releases/download/<tag>/<asset>`.
+The public download URL matches the catalog entry — with the `+` → space
+normalization applied (see next section).
+
+### Gitee `+` → space normalization (known mirror transformation)
+
+Gitee converts `+` in release-asset file names to a space at upload time:
+
+```
+uploaded:  cpython-3.11.10+20241016-x86_64-apple-darwin-install_only_stripped.tar.gz
+served as: cpython-3.11.10 20241016-x86_64-apple-darwin-install_only_stripped.tar.gz
+```
+
+Therefore the **catalog Gitee URL uses the actual served name with the space
+percent-encoded (`%20`)** — GitHub and upstream URLs keep the original name:
+
+```
+https://gitee.com/fluixa/fluixa-runtimes/releases/download/python-3.11.10/
+  cpython-3.11.10%2020241016-x86_64-apple-darwin-install_only_stripped.tar.gz   ← 200
+https://gitee.com/fluixa/fluixa-runtimes/releases/download/python-3.11.10/
+  cpython-3.11.10+20241016-x86_64-apple-darwin-install_only_stripped.tar.gz     ← 404
+```
+
+Byte identity is unaffected (verified: the renamed Gitee file hashes to the
+same `575b49a7…` as GitHub/pbs). `verify_catalog.py` allows exactly this
+transformation; any other mirror filename drift is a WARN — bytes stay
+enforced by sha256 everywhere.
 
 ## Official CDN (future)
 

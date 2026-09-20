@@ -71,12 +71,14 @@ the installer — the catalog itself stays pure metadata.
 
 Download sources for `python@3.11.10:darwin-x86_64` (ordered fallback):
 1. GitHub release `fluixa/fluixa-runtimes` `python-3.11.10` — **pending publication**
-2. Gitee mirror — **pending publication**
-3. upstream `astral-sh/python-build-standalone` `20241016` — **live bootstrap source**
+2. Gitee mirror — **published** (Gitee renames `+` → space in asset names;
+   the catalog URL uses the actual name, `%20`-encoded — see docs/release.md)
+3. upstream `astral-sh/python-build-standalone` `20241016` — **live fallback source**
 
-Until (1)/(2) are published, installs fall through to the upstream source;
-SHA-256 (`575b49a7…`) makes every source byte-identical by construction.
-`verify_catalog.py --check-urls` reports pending sources as WARN.
+Until (1) is published, installs fall through to Gitee / the upstream
+source; SHA-256 (`575b49a7…`) makes every source byte-identical by
+construction (mirror filename renames included). `verify_catalog.py
+--check-urls` reports pending sources as WARN.
 
 ## Security invariants
 

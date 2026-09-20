@@ -30,7 +30,7 @@ disagree, the Rust code wins and this doc must be fixed.
   "sha256": "575b49a7aa64e97b06de605b7e947033bf2310b5bc5f9aedb9859d4745033d91",
   "urls": [
     "https://github.com/fluixa/fluixa-runtimes/releases/download/<tag>/<asset>",
-    "https://gitee.com/fluixa/fluixa-runtimes/releases/download/<tag>/<asset>",
+    "https://gitee.com/fluixa/fluixa-runtimes/releases/download/<tag>/<asset-plus-encoded-as-%20>",
     "https://github.com/astral-sh/python-build-standalone/releases/download/20241016/<asset>"
   ],
   "entrypoints": {
@@ -49,7 +49,7 @@ disagree, the Rust code wins and this doc must be fixed.
 | `arch` | string | `x86_64` / `aarch64` |
 | `size` | u64 | archive size in **bytes, measured from the real artifact** (`gen_catalog.py`). Pre-check after download; `0` skips the pre-check (sha256 stays authoritative) |
 | `sha256` | string | 64 lowercase hex of the archive. **Identical across all mirrors** — a mismatch ABORTS the install, the next mirror is never tried |
-| `urls` | string[] | ordered download sources: primary → mirror1 → mirror2 → …; a transport failure (network/HTTP) falls through, a checksum mismatch does not. All urls must share the same basename |
+| `urls` | string[] | ordered download sources: primary → mirror1 → mirror2 → …; a transport failure (network/HTTP) falls through, a checksum mismatch does not. Mirrors must serve byte-identical content (sha256-pinned); **filename** may differ only via documented mirror transformations — Gitee normalizes `+` → space at upload, so its catalog URL carries the actual name (`%20`-encoded) |
 | `entrypoints` | map name→path | paths relative to the instance directory; copied verbatim into `RUNTIME_MANIFEST.json`; must be non-empty; the installer makes them executable |
 | `ca_bundle` | string? | path relative to the instance directory; the resolver emits `SSL_CERT_FILE=<abs>` when present |
 

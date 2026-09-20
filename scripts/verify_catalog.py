@@ -30,6 +30,7 @@ import re
 import subprocess
 import sys
 import time
+import urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -149,11 +150,22 @@ def main() -> int:
             record("FAIL", f"{label} duplicate entry"); fail = True
         seen[key] = e
 
-        # 4. mirror basename identity
-        names = {asset_name(u) for u in urls}
-        if len(names) > 1:
-            record("FAIL", f"{label} urls[] basenames differ: {sorted(names)} "
-                           f"(mirrors must serve the same file)"); fail = True
+        # 4. mirror filename identity — known transformations allowed.
+        #    Gitee normalizes '+' in release-asset names to a space at upload
+        #    time; the catalog stores the resulting name percent-encoded
+        #    (%20). Filenames are metadata — byte identity is pinned by
+        #    sha256/size, so unknown name drift is a WARN, never a FAIL.
+        if urls:
+            canonical = urllib.parse.unquote(asset_name(urls[0]))
+            allowed = {canonical, canonical.replace("+", " ")}
+            names = {urllib.parse.unquote(asset_name(u)) for u in urls}
+            if not names <= allowed:
+                record("WARN", f"{label} unexpected mirror filenames: "
+                               f"{sorted(names - allowed)} (bytes still "
+                               f"enforced by sha256)")
+            else:
+                record("OK", f"{label} mirror filenames consistent "
+                             f"(gitee '+' → space normalization allowed)")
 
         # 8. url probe
         if args.check_urls:
