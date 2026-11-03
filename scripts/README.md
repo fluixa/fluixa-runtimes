@@ -9,17 +9,25 @@ user-facing downloads are owned by the main app's Runtime Manager
 scripts/
 ├── fetch-runtime.sh      unified entry: arg parsing, common checks, temp
 │                         dir, logging, module dispatch
+├── release.sh            publish a catalog version as a GitHub Release
+│                         (draft) + Gitee mirror checklist
 ├── runtimes/
 │   ├── ffmpeg.sh         ffmpeg runtime module (migrated from
 │                         fluixa/extensions/media/scripts/fetch-tools.sh v2)
 │   └── python.sh         thin module — python artifacts are upstream
 │                         passthroughs; local-verify delegates to
 │                         verify_catalog.py
-└── lib/
+├── lib/
     ├── common.sh         logging / exit codes / temp dirs / proxy curl / JSON
     ├── checksum.sh       sha256 + size verification
     ├── archive.sh        zip/tar extraction + binary location
-    └── platform.sh       platform detection + BLOCKED/PENDING source matrix
+    ├── platform.sh       platform detection + BLOCKED/PENDING source matrix
+    └── release_tag.sh    release-tag parser (catalog-kind longest-prefix;
+                          hyphenated versions like
+                          ffmpeg-128263-g9f9b9548583 stay intact)
+└── tests/
+    └── test_release_parse.sh   tag-parser tests (real catalog read-only +
+                                temp fixtures; no artifacts touched)
 ```
 
 ## Usage
@@ -36,6 +44,13 @@ scripts/
 
 # python: offline catalog verification of existing artifacts
 ./scripts/fetch-runtime.sh python local-verify
+
+# release (maintainer): verify_catalog gate → asset collection → draft release
+./scripts/release.sh python-3.11.10
+./scripts/release.sh ffmpeg-128263-g9f9b9548583   # hyphenated version — OK
+
+# tag parser tests (read-only; run after touching release.sh/release_tag.sh)
+./scripts/tests/test_release_parse.sh
 ```
 
 Options: `--version <build-id>` (pin; mismatch = fail, never substitute),

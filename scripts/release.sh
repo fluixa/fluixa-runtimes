@@ -16,11 +16,22 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TAG="${1:?usage: release.sh <tag>  (e.g. python-3.11.10)}"
 cd "$ROOT"
 
+. "$(dirname "$0")/lib/release_tag.sh"
+
+# Parse <kind>-<version> against the CATALOG kinds (longest prefix match).
+# ${TAG%-*} would corrupt hyphenated versions like
+# ffmpeg-128263-g9f9b9548583 → (ffmpeg-128263 / g9f9b9548583).
+PARSED="$(parse_release_tag "$TAG" catalog.json)" || {
+    echo "ERROR: cannot resolve release tag '$TAG'." >&2
+    exit 1
+}
+KIND="${PARSED%% *}"; VERSION="${PARSED#* }"
+echo "==> tag: kind=$KIND version=$VERSION"
+
 echo "==> 1/4 verify catalog (release gate)"
-python3 scripts/verify_catalog.py --upstream --expect "${TAG%-*}@${TAG#*-}:darwin-x86_64"
+python3 scripts/verify_catalog.py --upstream --expect "${KIND}@${VERSION}:darwin-x86_64"
 
 echo "==> 2/4 collect release assets for $TAG"
-KIND="${TAG%-*}"; VERSION="${TAG#*-}"
 ASSET_FILES=""
 while IFS= read -r e; do
     KIND_V="$(printf '%s' "$e" | python3 -c 'import json,sys; e=json.load(sys.stdin); print(e["kind"], e["version"])')"
@@ -60,7 +71,7 @@ NOTES="$(mktemp /tmp/fluixa-release-XXXX.md)"
     done
     echo ""
     echo "Mirrors serve identical bytes; SHA-256 is the identity (catalog.json)."
-    echo "Origin: python-build-standalone $TAG release (upstream SHA256SUMS cross-checked)."
+    echo "Origin and audit trail: docs/ in this repo (per-runtime audit docs)."
 } > "$NOTES"
 gh release create -R fluixa/fluixa-runtimes "$TAG" --draft --title "Runtime $TAG" --notes-file "$NOTES" $ASSET_FILES
 rm -f "$NOTES"

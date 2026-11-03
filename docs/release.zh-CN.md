@@ -101,7 +101,9 @@ cd /Users/xuping/project/git/fluixa/fluixa-runtimes
 python3 scripts/verify_catalog.py --fetch
 python3 scripts/verify_catalog.py --upstream
 scripts/release.sh python-3.11.10
+(scripts/release.sh <kind>-<version>)
 ```
+> 说明:kind就是如：artifacts/ffmpeg这个名称，版本号就是：artifacts/ffmpeg/128263-g9f9b9548583，其实就是2个目录的名称。如：scripts/release.sh ffmpeg-128263-g9f9b9548583
 
 `release.sh` 的四个阶段：
 
