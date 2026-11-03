@@ -47,6 +47,7 @@ may differ only through documented mirror transformations (see below).
 | kind | version | darwin-x86_64 | darwin-aarch64 | windows-x86_64 | linux-x86_64 | linux-aarch64 |
 |---|---|---|---|---|---|---|
 | python | 3.11.10 | ✅ published | not built | not built | not built | not built |
+| ffmpeg | 128263-g9f9b9548583 | ✅ packaged + audited (ffmpeg+ffprobe pair, PENDING release) | not built | not built | not built | not built |
 
 Add a row only when a real artifact has been verified
 (`verify_catalog.py --upstream` green).
