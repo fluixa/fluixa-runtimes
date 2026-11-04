@@ -1,0 +1,130 @@
+{
+  "spec_version": 1,
+  "updated": "2026-11-04",
+  "note": " fluixa-runtimes 分发资源的合规清单。全部哈希为实测值；review_items 非空即整体状态为 LEGAL_REVIEW_REQUIRED（见 licenses/README.md 状态机）。",
+  "resources": [
+    {
+      "id": "ffmpeg",
+      "class": "runtime",
+      "distributed_as": "artifacts/ffmpeg/128263-g9f9b9548583/ffmpeg-128263-g9f9b9548583-x86_64-apple-darwin.tar.gz",
+      "upstream": "https://evermeet.cx/ffmpeg/ (tessus static build) — source: https://github.com/FFmpeg/FFmpeg",
+      "version": "128263-g9f9b9548583",
+      "sha256": "789a2bfe57a0ef5128511461b2884a42884bf37f0184676c7cf690b7b36f2d14",
+      "spdx": "GPL-3.0-or-later",
+      "copyright": "Copyright (c) 2000-2026 the FFmpeg developers",
+      "license_text": "licenses/ffmpeg/LICENSE-GPL-3.0.txt",
+      "build_params": "licenses/ffmpeg/BUILD_CONFIG.txt",
+      "source_artifacts": [
+        {
+          "path": "licenses/ffmpeg/FFmpeg-9f9b9548583.tar.gz",
+          "sha256": "b904aab9749880027c68bded28849b93fcb0b04bcba032039ec874a4cee34184",
+          "origin": "https://github.com/FFmpeg/FFmpeg/archive/9f9b9548583.tar.gz (commit 9f9b9548583ff7fbd633a5e6debe057d391f162c)"
+        }
+      ],
+      "source_match": {
+        "method": "binary -version commit fragment == source tarball top-level dir name (9f9b9548583ff7fbd633a5e6debe057d391f162c)",
+        "verified": "2026-11-04"
+      },
+      "deps_notes": [
+        "static build (--pkg-config-flags=--static); GPL triggers include libx264/libx265/libxvid/libxavs",
+        "GPLv3 source-correspondence obligation: FFmpeg tarball archived; x264/x265 NOT yet archived (exact versions unverifiable from binary)"
+      ],
+      "review_items": [
+        "x264/x265 exact versions + source correspondence (BUILD_CONFIG only records --enable flags)",
+        "full per-library SPDX inventory of the static build",
+        "H.264/H.265 patent exposure (see licenses/ffmpeg/PATENT-NOTES.md)",
+        "GPL architectural isolation (separate-process invocation) must be confirmed by legal review"
+      ],
+      "docs": [
+        "licenses/ffmpeg/SOURCE.md",
+        "licenses/ffmpeg/PATENT-NOTES.md"
+      ]
+    },
+    {
+      "id": "ffmpeg-legacy-9.0.1",
+      "class": "runtime-legacy",
+      "distributed_as": "artifacts/ffmpeg/9.0.1/ffmpeg-9.0.1-tessus-x86_64-apple-darwin.tar.gz",
+      "distributed_note": "not in catalog.json; legacy extension bundled copy",
+      "upstream": "https://evermeet.cx/ffmpeg/ (tessus static build)",
+      "version": "9.0.1",
+      "sha256": "b63d5f20c4dfa96f99d9833b917b462aeaaa07d8fbdbdb570b71311992f85d48",
+      "spdx": "GPL-3.0-or-later",
+      "copyright": "Copyright (c) 2000-2026 the FFmpeg developers",
+      "license_text": "licenses/ffmpeg/LICENSE-GPL-3.0.txt",
+      "build_params": null,
+      "source_artifacts": [],
+      "source_match": null,
+      "deps_notes": ["same tessus builder as current runtime; -buildconf not captured for this artifact"],
+      "review_items": [
+        "-buildconf not captured; source correspondence not archived",
+        "patent exposure same class as current ffmpeg runtime"
+      ],
+      "docs": ["licenses/ffmpeg/SOURCE.md"]
+    },
+    {
+      "id": "python",
+      "class": "runtime",
+      "distributed_as": "artifacts/python/3.11.10/cpython-3.11.10+20241016-x86_64-apple-darwin-install_only_stripped.tar.gz",
+      "upstream": "https://github.com/astral-sh/python-build-standalone (release 20241016) — source: https://github.com/python/cpython",
+      "version": "3.11.10",
+      "sha256": "575b49a7aa64e97b06de605b7e947033bf2310b5bc5f9aedb9859d4745033d91",
+      "spdx": "PSF-2.0",
+      "copyright": "Python Software Foundation (see LICENSE-PSF-2.0.txt history section)",
+      "license_text": "licenses/python/LICENSE-PSF-2.0.txt",
+      "build_params": null,
+      "source_artifacts": [],
+      "source_match": null,
+      "deps_notes": [
+        "license text taken from the CPython v3.11.10 tag (version-exact)",
+        "distribution bundles third-party components (OpenSSL, libffi, expat, SQLite, xz, mpdecimal, ...)"
+      ],
+      "review_items": [
+        "per-component SPDX inventory of the python-build-standalone distribution"
+      ],
+      "docs": ["licenses/python/SOURCE.md"]
+    },
+    {
+      "id": "yt-dlp",
+      "class": "media-tools",
+      "distributed_as": "assets/yt-dlp-zipimport",
+      "upstream": "https://github.com/yt-dlp/yt-dlp",
+      "version": "2026.08.19",
+      "sha256": "1fa6733c37ea6fb51c99ad8fe785e7b7e5f3246c9b980230329d4fb72ed8d4d6",
+      "spdx": "Unlicense",
+      "copyright": null,
+      "copyright_note": "Unlicense asserts no copyright (software dedicated to the public domain)",
+      "license_text": "licenses/yt-dlp/LICENSE-Unlicense.txt",
+      "build_params": null,
+      "source_artifacts": [],
+      "source_match": null,
+      "deps_notes": [
+        "zipimport zipapp (platform-independent), packaged by Fluixa from yt-dlp source",
+        "three-way SHA-256 match verified 2026-11-04: repo asset == extension bundled copy == installed runtime-store copy"
+      ],
+      "review_items": [
+        "optional yt-dlp dependencies actually bundled into the zipapp not audited (brotli/mutagen/pycryptodomex/websockets/certifi ...)",
+        "upstream 2026.08.19 source tarball not yet archived locally"
+      ],
+      "docs": ["licenses/yt-dlp/SOURCE.md"]
+    },
+    {
+      "id": "cacert",
+      "class": "shared-assets",
+      "distributed_as": "assets/cacert.pem",
+      "upstream": "https://github.com/certifi/python-certifi (certifi 2026.7.22) — content: Mozilla CA Root Certificates",
+      "version": "certifi-2026.7.22",
+      "sha256": "9cc2a774b5198dcff14d9be1e66091f538975d867ce029a96bce15a55dfd730f",
+      "spdx": "MPL-2.0",
+      "copyright": "Mozilla contributors / certifi project (see certifi-LICENSE-notice.txt)",
+      "license_text": "licenses/cacert/LICENSE-MPL-2.0.txt",
+      "build_params": null,
+      "source_artifacts": [],
+      "source_match": null,
+      "deps_notes": [
+        "CA bundle rotates with upstream updates: any byte change MUST be accompanied by a manifest update (script enforces)"
+      ],
+      "review_items": [],
+      "docs": ["licenses/cacert/SOURCE.md"]
+    }
+  ]
+}
