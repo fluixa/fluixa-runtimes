@@ -46,11 +46,25 @@ scripts/
 ./scripts/fetch-runtime.sh python local-verify
 
 # release (maintainer): verify_catalog gate → asset collection → draft release
+# Release classes (a release carries ONLY its own class's assets):
+#   python-<version>  → artifacts/python/<version>/* only
+#   ffmpeg-<version>  → artifacts/ffmpeg/<version>/* only (ffmpeg+ffprobe pair)
+#   shared-assets     → assets/cacert.pem only
+#   media-tools       → assets/yt-dlp-zipimport only
 ./scripts/release.sh python-3.11.10
 ./scripts/release.sh ffmpeg-128263-g9f9b9548583   # hyphenated version — OK
+./scripts/release.sh ffmpeg-128263-g9f9b9548583 --dry-run   # print, don't publish
+./scripts/release.sh shared-assets --dry-run
+./scripts/release.sh media-tools --dry-run
 
 # tag parser tests (read-only; run after touching release.sh/release_tag.sh)
 ./scripts/tests/test_release_parse.sh
+# release asset classification tests (assert no cross-class leakage +
+# ffmpeg artifact sha256 unchanged)
+./scripts/tests/test_release_assets.sh
+# release notes tempfile tests (macOS mktemp pattern: trailing X-run, no
+# fixed suffix, cleanup trap on all exit paths)
+./scripts/tests/test_release_tmpfile.sh
 ```
 
 Options: `--version <build-id>` (pin; mismatch = fail, never substitute),

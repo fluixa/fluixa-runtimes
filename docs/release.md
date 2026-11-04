@@ -2,6 +2,24 @@
 
 > 简体中文版本：[release.zh-CN.md](./release.zh-CN.md)（含首次发布实际走通的完整 Runbook）
 
+## Release classes（2026-11-03 — 资产按类发布，不再全量附带）
+
+每个 Release 只包含自己类别的资产（旧逻辑 `for A in assets/*` 会把
+`cacert.pem` + `yt-dlp-zipimport` 附到每个 Runtime Release——已修复）：
+
+| tag | 资产 |
+|---|---|
+| `python-<version>` | 仅 `artifacts/python/<version>/*` |
+| `ffmpeg-<version>` | 仅 `artifacts/ffmpeg/<version>/*`（ffmpeg + ffprobe 成对） |
+| `shared-assets` | 仅 `assets/cacert.pem` |
+| `media-tools` | 仅 `assets/yt-dlp-zipimport` |
+
+依据：安装器通过应用内置 `provision_assets`
+（apps/desktop/src/runtime_provision.rs）消费这两个文件——**从不经 Release
+下载**；且 `yt-dlp-zipimport` 是独立工具资源，不是 python Runtime 的组成
+部分。分类逻辑：`scripts/lib/release_assets.sh`（测试：
+`scripts/tests/test_release_assets.sh`）。
+
 ## Naming conventions
 
 ### Artifact file name

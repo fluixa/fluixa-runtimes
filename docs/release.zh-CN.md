@@ -104,6 +104,12 @@ scripts/release.sh python-3.11.10
 (scripts/release.sh <kind>-<version>)
 ```
 > 说明:kind就是如：artifacts/ffmpeg这个名称，版本号就是：artifacts/ffmpeg/128263-g9f9b9548583，其实就是2个目录的名称。如：scripts/release.sh ffmpeg-128263-g9f9b9548583
+>
+> **资产按类发布（2026-11-03 修复）**：每个 Release 只携带自己类别的资产——
+> `python-<version>`→仅 python 工件；`ffmpeg-<version>`→仅 ffmpeg+ffprobe 工件；
+> `shared-assets`→仅 cacert.pem；`media-tools`→仅 yt-dlp-zipimport。
+> 先用 `--dry-run` 预览资产清单与 gh 命令。分类逻辑见
+> `scripts/lib/release_assets.sh`（旧逻辑会把 assets/* 全部附上，已修复）。
 
 `release.sh` 的四个阶段：
 
@@ -112,7 +118,8 @@ scripts/release.sh python-3.11.10
                              （--expect python@3.11.10:darwin-x86_64），
                              任何 FAIL 都中止发布
 2/4 collect release assets —— 按 tag（<kind>-<version>）收集该条目的
-                             全部 artifact + assets/*，缺失即报错退出
+                             工件（runtime 类）；fixed-asset 类按类别
+                             映射单个资产；缺失即报错退出
 3/4 checksums              —— gen_catalog.py 重算并生成 SHA256SUMS
 4/4 GitHub draft release   —— gh release create -R fluixa/fluixa-runtimes
                              <tag> --draft …，附全部资产 + 指纹表 notes
