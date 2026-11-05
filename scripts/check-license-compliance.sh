@@ -103,6 +103,15 @@ PY
         [ -n "$kind" ] || continue
         M_VER="$(printf '%s\n' "$RESOURCES" | awk -F'\t' -v id="$kind" '$1==id{print $3}')"
         M_SHA="$(printf '%s\n' "$RESOURCES" | awk -F'\t' -v id="$kind" '$1==id{print $4}')"
+        # A catalog kind may point at a differently-named manifest resource
+        # (e.g. kind 'ffmpeg' -> resource 'ffmpeg-lgpl' after Task H): accept
+        # ANY resource whose version AND sha256 both match the catalog entry.
+        if [ "$M_VER" != "$version" ] || [ "$M_SHA" != "$sha" ]; then
+            ALT="$(printf '%s\n' "$RESOURCES" | awk -F'\t' -v v="$version" -v s="$sha" '$3==v && $4==s{print $1; exit}')"
+            if [ -n "$ALT" ]; then
+                M_VER="$version"; M_SHA="$sha"
+            fi
+        fi
         if [ -z "$M_VER" ]; then
             blocked "catalog entry '$kind' has NO licenses/manifest.json entry"
         elif [ "$M_VER" != "$version" ] || [ "$M_SHA" != "$sha" ]; then

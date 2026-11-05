@@ -21,14 +21,14 @@
     },
     {
       "kind": "ffmpeg",
-      "version": "128263-g9f9b9548583",
+      "version": "128263-g9f9b9548583-lgpl",
       "platform": "darwin",
       "arch": "x86_64",
-      "size": 54441009,
-      "sha256": "789a2bfe57a0ef5128511461b2884a42884bf37f0184676c7cf690b7b36f2d14",
+      "size": 21978049,
+      "sha256": "d64d3ead85c39004e4a075510d5b09c0a669d6be60ee95ffdee28af19a97d06e",
       "urls": [
-        "https://github.com/fluixa/fluixa-runtimes/releases/download/ffmpeg-128263-g9f9b9548583/ffmpeg-128263-g9f9b9548583-x86_64-apple-darwin.tar.gz",
-        "https://gitee.com/fluixa/fluixa-runtimes/releases/download/ffmpeg-128263-g9f9b9548583/ffmpeg-128263-g9f9b9548583-x86_64-apple-darwin.tar.gz"
+        "https://github.com/fluixa/fluixa-runtimes/releases/download/ffmpeg-128263-g9f9b9548583-lgpl/ffmpeg-128263-g9f9b9548583-lgpl-x86_64-apple-darwin.tar.gz",
+        "https://gitee.com/fluixa/fluixa-runtimes/releases/download/ffmpeg-128263-g9f9b9548583-lgpl/ffmpeg-128263-g9f9b9548583-lgpl-x86_64-apple-darwin.tar.gz"
       ],
       "entrypoints": {
         "ffmpeg": "ffmpeg/bin/ffmpeg",

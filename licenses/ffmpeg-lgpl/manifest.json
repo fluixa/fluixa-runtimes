@@ -1,0 +1,82 @@
+{
+  "spec_version": 1,
+  "updated": "2026-11-05",
+  "note": " fluixa LGPL-only FFmpeg Runtime 的独立合规清单（Task H）。与历史 GPL Runtime（licenses/ffmpeg/、../manifest.json 的 ffmpeg/ffmpeg-legacy-9.0.1 条目）并行共存，历史资料与义务不受影响。verification_status 取值：VERIFIED / REVIEW_REQUIRED / BLOCKED。",
+  "resource": {
+    "id": "ffmpeg-lgpl",
+    "class": "runtime",
+    "distributed_as": "artifacts/ffmpeg/128263-g9f9b9548583-lgpl/ffmpeg-128263-g9f9b9548583-lgpl-x86_64-apple-darwin.tar.gz",
+    "ffmpeg_version": "8.0.git (commit 9f9b9548583ff7fbd633a5e6debe057d391f162c)",
+    "catalog_version": "128263-g9f9b9548583-lgpl",
+    "binary_version_string": "8.0.git-fluixa-lgpl",
+    "sha256": "d64d3ead85c39004e4a075510d5b09c0a669d6be60ee95ffdee28af19a97d06e",
+    "size": 21978049,
+    "license": "LGPL-2.1-or-later",
+    "license_text": "licenses/ffmpeg-lgpl/LICENSE-LGPL-2.1.txt",
+    "build_configuration": "--disable-gpl --disable-nonfree --disable-autodetect --disable-network --disable-ffplay --disable-x86asm --enable-static --disable-shared --enable-zlib --enable-videotoolbox --enable-libwebp --extra-version=fluixa-lgpl",
+    "build_params": "licenses/ffmpeg-lgpl/BUILD_CONFIG.txt",
+    "license_verdict_configure": "License: LGPL version 2.1 or later",
+    "source_artifacts": [
+      {
+        "path": "licenses/ffmpeg/FFmpeg-9f9b9548583.tar.gz",
+        "sha256": "b904aab9749880027c68bded28849b93fcb0b04bcba032039ec874a4cee34184",
+        "origin": "FFmpeg 本体源码 — 与 GPL 构建同 commit（共享归档）"
+      },
+      {
+        "path": "licenses/ffmpeg-lgpl/libwebp-1.6.0.tar.gz",
+        "sha256": "e4ab7009bf0629fd11982d4c2aa83964cf244cffba7347ecd39019a9e38c4564",
+        "origin": "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.6.0.tar.gz (静态链入)"
+      }
+    ],
+    "source_match": {
+      "method": "构建自与官方 GPL Runtime 相同 commit 的归档源码；版本串 8.0.git-fluixa-lgpl 中 commit 片段 128263-g9f9b9548583 与归档一致",
+      "verified": "2026-11-05"
+    },
+    "gpl_exclusion_proof": {
+      "method": "反向证明：buildconf/encoders/decoders/filters/muxers/demuxers/protocols 全量输出存档（proof/）+ 功能级显式失败验证",
+      "verified": "2026-11-05",
+      "items": {
+        "enable-gpl": "ABSENT",
+        "enable-nonfree": "ABSENT",
+        "libx264": "ABSENT (encoders 无此项; -c:v libx264 → Unknown encoder, exit 8)",
+        "libx265": "ABSENT",
+        "libxvid": "ABSENT",
+        "libxavs": "ABSENT",
+        "libvidstab": "ABSENT",
+        "librubberband": "ABSENT",
+        "libgsm_external": "ABSENT (内置 gsm 解码器为 FFmpeg 自有实现)",
+        "autodetect": "DISABLED (不可能意外链入任何未白名单库)"
+      }
+    },
+    "dependencies": [
+      {"name": "zlib", "version": "macOS 系统 (1.2.12)", "source": "系统 dylib /usr/lib/libz.1.dylib", "license": "Zlib", "license_status": "VERIFIED", "source_availability": "系统组件", "distribution_obligations": "无（系统库）", "patent_review": "NONE-IDENTIFIED", "verification_status": "VERIFIED"},
+      {"name": "VideoToolbox/CoreMedia/CoreVideo 等系统框架", "version": "macOS 系统", "source": "系统框架（动态链接）", "license": "Apple 系统组件", "license_status": "VERIFIED", "source_availability": "系统组件", "distribution_obligations": "无（系统框架）", "patent_review": "REQUIRED — h264/hevc_videotoolbox 编码由 OS 框架执行，责任模型需法律审查", "verification_status": "VERIFIED（链接关系）/ LEGAL_REVIEW_REQUIRED（专利）"},
+      {"name": "libwebp", "version": "1.6.0", "source": "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.6.0.tar.gz", "license": "BSD-3-Clause", "license_status": "VERIFIED", "source_availability": "archived: licenses/ffmpeg-lgpl/libwebp-1.6.0.tar.gz", "distribution_obligations": "随分发附 BSD notice + 对应源码（已归档）", "patent_review": "NONE-IDENTIFIED", "verification_status": "VERIFIED"}
+    ],
+    "functional_verification": {
+      "date": "2026-11-05",
+      "results": {
+        "ffprobe_mp4": "PASS", "ffprobe_mov": "PASS", "ffprobe_gif": "PASS",
+        "trim_stream_copy": "PASS (1.02s 输出，流一致=无重编码)",
+        "gif_palettegen_paletteuse": "PASS (340K 有效 GIF)",
+        "png": "PASS", "jpeg_mjpeg": "PASS", "webp_libwebp": "PASS",
+        "ytdlp_merge_semantics_stream_copy": "PASS (v+a → -c copy 合流，编解码流逐项一致)",
+        "videotoolbox_h264_allow_sw": "PASS (Task G -allow_sw 1 策略沿用)",
+        "videotoolbox_hevc": "PASS",
+        "explicit_fail_on_gpl_encoder": "PASS (-c:v libx264 → Unknown encoder)"
+      },
+      "pending": ["真实站点 yt-dlp 下载合流（需公网样例，命令级语义已验证）", "Windows/Linux 工件"]
+    },
+    "review_items": [
+      "H.264/HEVC 解码与系统 VideoToolbox 编码的专利责任模型（licenses/ffmpeg-lgpl/PATENT-NOTES.md）",
+      "GPL 架构隔离结论（进程边界）须法律审查确认",
+      "发布前 codesign + notarization（构建未签名）",
+      "catalog urls 指向尚未创建的 Release tag（发布由 owner 执行）"
+    ],
+    "docs": [
+      "licenses/ffmpeg-lgpl/SOURCE.md",
+      "licenses/ffmpeg-lgpl/THIRD_PARTY_LICENSES.md",
+      "licenses/ffmpeg-lgpl/PATENT-NOTES.md"
+    ]
+  }
+}

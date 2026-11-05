@@ -36,15 +36,31 @@
 | 源码树 RELEASE | `8.0.git` |
 | 对应性验证方法 | 解包目录名 `FFmpeg-9f9b9548583ff7fbd633a5e6debe057d391f162c/` 与二进制 `-version` 输出中的 commit 逐字符比对一致 |
 
-**注意**：这是 FFmpeg 本体的源码对应物。构建还静态链接了大量第三方库（见 BUILD_CONFIG），
-其中 x264 / x265 的**精确版本（commit）无法从二进制确证**——`-buildconf` 只给出
-`--enable-libx264` / `--enable-libx265` 开关，不含库版本。因此：
+### x264 / x265 取证（Task G WS2，2026-11-04 升级为 VERIFIED）
 
-- x264（GPL-2.0-or-later）、x265（GPL-2.0-or-later）等 GPL 库的源码对应物
-  **状态：`LEGAL_REVIEW_REQUIRED`**（获取路径：用已记录的 BUILD_CONFIG 从源码重建并记录
-  所用依赖 commit，或向 tessus 上游求证构建清单）。
-- 在此完成前，`scripts/check-license-compliance.sh` 将 ffmpeg 整体报告为
-  `LEGAL_REVIEW_REQUIRED`（而非 `BLOCKED`——FFmpeg 本体的义务材料已齐）。
+版本来源：**构建者（tessus/evermeet）为本次构建发布的外部库版本表**
+（`evermeet-ffmpeg-build-info-2026-10-31.html`，编译日期 2026-10-31；其
+configuration 行与分发二进制 `-buildconf` 逐字符吻合，交叉验证成立）。
+快照页与本构建一一对应（`ffmpeg-128263-g9f9b9548583`）。
+
+| 项 | x264 | x265 |
+| --- | --- | --- |
+| 版本（构建者清单） | `0.165.3223`（`20250910-0480cb05`） | `4.2+37-b81f650e2`（`20260623-b81f650e2`） |
+| 完整 commit | `0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee`（`git ls-remote` 解析，= master HEAD） | `b81f650e2…`（bitbucket 归档目录名 `multicoreware-x265_git-b81f650e21e8`） |
+| 源码归档 | `x264-0480cb05.tar.gz`（sha256 `d0967a13…`） | `x265-b81f650e2.tar.gz`（sha256 `540de59b…`） |
+| 许可证核验 | 归档内 `COPYING` = **GPLv2** | 归档内 `COPYING` = **GPLv2** |
+
+> 归档内版本字符串（如 x264 `0.165.3223` 即 X264_BUILD 3223 / X264_POINTVER）
+> 可在源码树 `version.sh`/`x264.h` 中复核；此为源码↔二进制的二次对应证据。
+
+**剩余 GPL 触发项**：libxvid（1.3.7）、libxavs（20110821-r55）、libvidstab
+（1.1.2-214）、librubberband（4.0.0）——版本已由构建者清单 **VERIFIED**，
+源码归档未完成（`LEGAL_REVIEW_REQUIRED`，获取路径同上，公开上游可取）。
+
+- 完整 43 项依赖清单（含版本/许可证/义务/专利/验证状态）见 `manifest.json`
+  ffmpeg 条目 `dependencies` 数组。
+- 在剩余 GPL 源码归档完成前，ffmpeg 整体仍报告 `LEGAL_REVIEW_REQUIRED`
+  （非 `BLOCKED`——FFmpeg/x264/x265 义务材料已齐）。
 
 ## 构建参数
 

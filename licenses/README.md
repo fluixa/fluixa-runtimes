@@ -24,8 +24,19 @@ licenses/
 │   ├── BUILD_CONFIG.txt          # 实际分发二进制的 -version/-buildconf 全文（2026-11-04 采集）
 │   ├── LICENSE-GPL-3.0.txt       # GPLv3 全文（gnu.org 官方文本）
 │   ├── FFmpeg-9f9b9548583.tar.gz # 匹配 commit 的上游源码（对应物，真实落盘）
+│   ├── x264-0480cb05.tar.gz      # x264 0.165.3223 匹配 commit 源码（Task G WS2 归档）
+│   ├── x265-b81f650e2.tar.gz     # x265 4.2+37 匹配 commit 源码（Task G WS2 归档）
+│   ├── evermeet-ffmpeg-build-info-2026-10-31.html # 构建者官方配置+库版本表（取证证据）
 │   ├── SOURCE.md                 # 来源链与校验记录
 │   └── PATENT-NOTES.md           # H.264/H.265/x264/x265 专利风险（独立于许可证）
+├── ffmpeg-lgpl/                  # Task H：LGPL-only Runtime（与 ffmpeg/ 并行共存）
+│   ├── BUILD_CONFIG.txt          # 新二进制 -version/-buildconf 全文
+│   ├── LICENSE-LGPL-2.1.txt      # LGPL-2.1 官方全文（源码树 COPYING.LGPLv2.1）
+│   ├── THIRD_PARTY_LICENSES.md   # 仅 4 项依赖（zlib/系统框架/libwebp/FFmpeg 本体）
+│   ├── manifest.json             # 独立合规清单（GPL 排除证明/功能验证/审查项）
+│   ├── SOURCE.md / PATENT-NOTES.md
+│   ├── libwebp-1.6.0.tar.gz      # 静态链入的对应源码
+│   └── proof/                    # 反向证明 8 项输出 + 功能回归产物
 ├── python/
 │   ├── LICENSE-PSF-2.0.txt       # CPython v3.11.10 tag 的官方 LICENSE 全文
 │   └── SOURCE.md                 # python-build-standalone 来源链

@@ -19,9 +19,9 @@ fail() { echo "FAIL $*"; FAIL=$((FAIL + 1)); }
 # ------------------------------------------------------------
 # ffmpeg: exactly one artifact, no shared assets
 # ------------------------------------------------------------
-GOT="$(collect_release_assets ffmpeg 128263-g9f9b9548583 "$ROOT/catalog.json" "$ROOT" 2>&1)"
+GOT="$(collect_release_assets ffmpeg 128263-g9f9b9548583-lgpl "$ROOT/catalog.json" "$ROOT" 2>&1)"
 CASE="ffmpeg classification"
-if [ "$GOT" = " artifacts/ffmpeg/128263-g9f9b9548583/ffmpeg-128263-g9f9b9548583-x86_64-apple-darwin.tar.gz" ]; then
+if [ "$GOT" = " artifacts/ffmpeg/128263-g9f9b9548583-lgpl/ffmpeg-128263-g9f9b9548583-lgpl-x86_64-apple-darwin.tar.gz" ]; then
     ok "$CASE (single artifact, correct path)"
 else
     fail "$CASE — got: '$GOT'"
@@ -35,7 +35,7 @@ esac
 # ffmpeg artifact sha256 — the release asset is THE audited artifact
 # ------------------------------------------------------------
 GOT="${GOT# }"
-EXPECT_SHA="789a2bfe57a0ef5128511461b2884a42884bf37f0184676c7cf690b7b36f2d14"
+EXPECT_SHA="d64d3ead85c39004e4a075510d5b09c0a669d6be60ee95ffdee28af19a97d06e"
 ART_SHA="$(shasum -a 256 "$ROOT/$GOT" | awk '{print $1}')"
 if [ "$ART_SHA" = "$EXPECT_SHA" ]; then
     ok "ffmpeg artifact sha256 unchanged ($ART_SHA)"

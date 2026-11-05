@@ -1,0 +1,17 @@
+ffmpeg version 8.0.git-fluixa-lgpl Copyright (c) 2000-2026 the FFmpeg developers
+  built with Apple clang version 17.0.0 (clang-1700.4.4.1)
+  configuration: --prefix=/tmp/ff-lgpl/stage --extra-version=fluixa-lgpl --disable-gpl --disable-nonfree --disable-doc --disable-debug --disable-ffplay --disable-autodetect --disable-network --disable-x86asm --enable-static --disable-shared --enable-zlib --enable-videotoolbox --enable-libwebp --pkg-config-flags=--static --extra-cflags=-I/tmp/ff-lgpl/deps/include --extra-ldflags=-L/tmp/ff-lgpl/deps/lib
+  libavutil      61. 20.100 / 61. 20.100
+  libavcodec     63. 25.102 / 63. 25.102
+  libavformat    63. 17.100 / 63. 17.100
+  libavdevice    63.  6.100 / 63.  6.100
+  libavfilter    12. 12.100 / 12. 12.100
+  libswscale     10.  6.100 / 10.  6.100
+  libswresample   7.  7.100 /  7.  7.100
+Input #0, lavfi, from 'testsrc2=size=64x64:rate=10:duration=0.5':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: wrapped_avframe, yuv420p, 64x64 [SAR 1:1 DAR 1:1], 10 fps, 10 tbr, 10 tbn
+[vost#0:0 @ 0x7fd79b305ac0] Unknown encoder 'libx264'
+[vost#0:0 @ 0x7fd79b305ac0] Error selecting an encoder
+Error opening output file x.mp4.
+Error opening output files: Encoder not found

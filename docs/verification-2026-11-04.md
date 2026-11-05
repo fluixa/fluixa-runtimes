@@ -66,3 +66,69 @@ scripts/tests/test_license_compliance.sh
 - GUI 人工验收（横幅/预览页交互）保持 PENDING，见 fluixa
   `docs/manual-testing/ffmpeg-shared-runtime.md` 与
   `docs/manual-testing/offline-import-and-licenses.md`。
+
+---
+
+# Task G 追加记录（2026-11-04，同日收尾）
+
+## WS2 — FFmpeg 依赖取证升级
+
+- **版本来源实证**：构建者（evermeet/tessus）官方库版本表快照已归档
+  （`licenses/ffmpeg/evermeet-ffmpeg-build-info-2026-10-31.html`，编译日期
+  2026-10-31；configuration 行与分发二进制 `-buildconf` 逐字符吻合）。
+- **x264 = `0.165.3223`（commit `0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee`，
+  git ls-remote 解析且 = master HEAD）**；源码归档 `x264-0480cb05.tar.gz`
+  （sha256 `d0967a13…`），归档内 COPYING = GPLv2。
+- **x265 = `4.2+37-b81f650e2`**；源码归档 `x265-b81f650e2.tar.gz`
+  （sha256 `540de59b…`），归档内 COPYING = GPLv2。
+- **43 项依赖清单**写入 `manifest.json` ffmpeg 条目 `dependencies`
+  （name/version/source/license/source_availability/distribution_obligations/
+  patent_review/verification_status；VERIFIED 为主，avisynth 变体、gsm、mysofa、
+  vmaf 模型条款、zimg WTFPL、modplug 混合、iconv/orc/uuid 链接性 = REVIEW_REQUIRED）。
+- 剩余 GPL 库（xvid/xavs/vidstab/rubberband）版本 VERIFIED、源码未归档 →
+  ffmpeg 整体维持 `LEGAL_REVIEW_REQUIRED`（合规脚本 18 ok / 0 fail / 0 blocked / 4 review）。
+
+## 未做（按约束）
+
+- 不重建 ffmpeg（x264/x265 移除需新版本构建，属下游 Release 计划）；
+  不动任何已发布工件与 Release。
+
+
+---
+
+# Task H 记录（2026-11-05）：LGPL-only FFmpeg Runtime
+
+## 构建
+
+- 源码：`licenses/ffmpeg/FFmpeg-9f9b9548583.tar.gz`（与 GPL 构建同 commit
+  `9f9b9548583ff7fbd633a5e6debe057d391f162c`，来源对应性共享）。
+- 配置：`--disable-gpl --disable-nonfree --disable-autodetect --disable-network
+  --disable-ffplay --disable-x86asm --enable-static --disable-shared
+  --enable-zlib --enable-videotoolbox --enable-libwebp --extra-version=fluixa-lgpl`。
+- libwebp 1.6.0（BSD-3）静态编译链入（sha256 在册）。
+- 产物：`artifacts/ffmpeg/128263-g9f9b9548583-lgpl/…tar.gz`（sha256
+  `d64d3ead…`，21,978,049 字节，`ffmpeg/bin/{ffmpeg,ffprobe}` 布局与官方一致，
+  自包含：仅系统 dylib + 系统框架）。
+
+## 反向证明与功能回归（全部真实二进制）
+
+- `licenses/ffmpeg-lgpl/proof/`：8 项能力输出全量存档；GPL 标志与 7 个 GPL 库
+  全部 ABSENT；configure 判定 `License: LGPL version 2.1 or later`。
+- 功能 10/10 PASS：ffprobe(mp4/mov/gif)、trim(-c copy)、GIF(palette)、PNG/JPEG、
+  WebP、stream-copy 合流、VideoToolbox H264(-allow_sw)/HEVC、MOV、
+  libx264 显式失败。
+
+## 集成
+
+- `catalog.json` ffmpeg 条目 → `128263-g9f9b9548583-lgpl`（旧 GPL 工件/资料
+  保留）；`test_release_assets.sh` pin 更新（8/8 PASS）；合规脚本 catalog 映射
+  支持跨资源条目匹配（22 ok / 0 fail / 0 blocked / 5 review）。
+- fluixa 侧 E2E：`real_ffmpeg_lgpl_e2e.rs` PASS —— 真实 Store 安装→激活→解析→
+  二进制反向证明→**GPL 旧实例共存断言**。
+- 独立合规材料：`licenses/ffmpeg-lgpl/`（SOURCE/THIRD_PARTY_LICENSES/manifest/
+  PATENT-NOTES/LICENSE-LGPL-2.1/libwebp 源码/proof）。
+
+## 门禁
+
+**RELEASE_CANDIDATE**（darwin-x86_64）。剩余：Release tag/发布（owner）、
+codesign+notarization、专利与 GPL 隔离法律审查、Windows/Linux 工件（PENDING）。

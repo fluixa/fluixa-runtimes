@@ -1,0 +1,47 @@
+ffmpeg version 8.0.git-fluixa-lgpl Copyright (c) 2000-2026 the FFmpeg developers
+  built with Apple clang version 17.0.0 (clang-1700.4.4.1)
+  configuration: --prefix=/tmp/ff-lgpl/stage --extra-version=fluixa-lgpl --disable-gpl --disable-nonfree --disable-doc --disable-debug --disable-ffplay --disable-autodetect --disable-network --disable-x86asm --enable-static --disable-shared --enable-zlib --enable-videotoolbox --enable-libwebp --pkg-config-flags=--static --extra-cflags=-I/tmp/ff-lgpl/deps/include --extra-ldflags=-L/tmp/ff-lgpl/deps/lib
+  libavutil      61. 20.100 / 61. 20.100
+  libavcodec     63. 25.102 / 63. 25.102
+  libavformat    63. 17.100 / 63. 17.100
+  libavdevice    63.  6.100 / 63.  6.100
+  libavfilter    12. 12.100 / 12. 12.100
+  libswscale     10.  6.100 / 10.  6.100
+  libswresample   7.  7.100 /  7.  7.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'v_only.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf63.17.100
+  Duration: 00:00:03.00, start: 0.000000, bitrate: 587 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, progressive), 320x240 [SAR 1:1 DAR 4:3], 584 kb/s, 15 fps, 15 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      encoder         : Lavc63.25.102 h264_videotoolbox
+Input #1, mov,mp4,m4a,3gp,3g2,mj2, from 'a_only.m4a':
+  Metadata:
+    major_brand     : M4A 
+    minor_version   : 512
+    compatible_brands: M4A isomiso2
+    encoder         : Lavf63.17.100
+  Duration: 00:00:03.00, start: 0.000000, bitrate: 72 kb/s
+  Stream #1:0[0x1](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, mono, fltp, 68 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+Stream mapping:
+  Stream #0:0 -> #0:0 (copy)
+  Stream #1:0 -> #0:1 (copy)
+Output #0, mp4, to 'merged.mp4':
+  Metadata:
+    encoder         : Lavf63.17.100
+  Stream #0:0(und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, progressive), 320x240 [SAR 1:1 DAR 4:3], q=2-31, 584 kb/s, 15 fps, 15 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      encoder         : Lavc63.25.102 h264_videotoolbox
+  Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, mono, fltp, 68 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+Press [q] to stop, [?] for help
+[out#0/mp4 @ 0x7fd448704080] video:214KiB audio:25KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 1.067092%
+frame=   45 fps=0.0 q=-1.0 Lsize=     242KiB time=00:00:03.01 bitrate= 656.9kbits/s speed= 919x elapsed=0:00:00.00    

@@ -1,0 +1,33 @@
+ffmpeg version 8.0.git-fluixa-lgpl Copyright (c) 2000-2026 the FFmpeg developers
+  built with Apple clang version 17.0.0 (clang-1700.4.4.1)
+  configuration: --prefix=/tmp/ff-lgpl/stage --extra-version=fluixa-lgpl --disable-gpl --disable-nonfree --disable-doc --disable-debug --disable-ffplay --disable-autodetect --disable-network --disable-x86asm --enable-static --disable-shared --enable-zlib --enable-videotoolbox --enable-libwebp --pkg-config-flags=--static --extra-cflags=-I/tmp/ff-lgpl/deps/include --extra-ldflags=-L/tmp/ff-lgpl/deps/lib
+  libavutil      61. 20.100 / 61. 20.100
+  libavcodec     63. 25.102 / 63. 25.102
+  libavformat    63. 17.100 / 63. 17.100
+  libavdevice    63.  6.100 / 63.  6.100
+  libavfilter    12. 12.100 / 12. 12.100
+  libswscale     10.  6.100 / 10.  6.100
+  libswresample   7.  7.100 /  7.  7.100
+Input #0, lavfi, from 'testsrc2=size=320x240:rate=15:duration=3':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: wrapped_avframe, yuv420p, 320x240 [SAR 1:1 DAR 4:3], 15 fps, 15 tbr, 15 tbn
+Input #1, lavfi, from 'sine=frequency=440:duration=3':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #1:0: Audio: pcm_s16le, 44100 Hz, mono, s16, 705 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (wrapped_avframe (native) -> h264 (h264_videotoolbox))
+  Stream #1:0 -> #0:1 (pcm_s16le (native) -> aac (native))
+Press [q] to stop, [?] for help
+Output #0, mp4, to 'sample.mp4':
+  Metadata:
+    encoder         : Lavf63.17.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(progressive), 320x240 [SAR 1:1 DAR 4:3], q=2-31, 15 fps, 15360 tbn
+    Metadata:
+      encoder         : Lavc63.25.102 h264_videotoolbox
+  Stream #0:1: Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, mono, fltp, 69 kb/s
+    Metadata:
+      encoder         : Lavc63.25.102 aac
+[h264_videotoolbox @ 0x7f8207905940] Color range not set for yuv420p. Using MPEG range.
+[out#0/mp4 @ 0x7f82078064c0] video:214KiB audio:25KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 1.067092%
+frame=   45 fps=0.0 q=-0.0 Lsize=     242KiB time=00:00:03.00 bitrate= 661.0kbits/s speed=3.27x elapsed=0:00:00.91    
+[aac @ 0x7f8207b06000] Qavg: 0.314  Tr: 0.8%  TNS(L): 0.0%  TNS(S): 0.0%  M/S: 0.0%  I/S: 0.0%  PNS: 0.0%
