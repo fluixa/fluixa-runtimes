@@ -30,8 +30,8 @@ else
     fail "$CASE — exit=$EXIT\n$GOT"
 fi
 CASE="real repo reports review-required items"
-if printf '%s' "$GOT" | grep -q "REVW \[ffmpeg\] LEGAL_REVIEW_REQUIRED"; then
-    ok "$CASE (ffmpeg x264/x265 + patent items open)"
+if printf '%s' "$GOT" | grep -q "REVW \[ffmpeg-lgpl\] LEGAL_REVIEW_REQUIRED"; then
+    ok "$CASE (ffmpeg-lgpl patent/isolation items open)"
 else
     fail "$CASE — review items must NOT be silently closed\n$GOT"
 fi

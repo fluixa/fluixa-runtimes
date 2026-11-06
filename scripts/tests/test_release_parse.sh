@@ -45,7 +45,7 @@ assert_reject() {
 
 echo "== positive cases (real catalog.json, read-only) =="
 assert_parse "python-3.11.10"              "python" "3.11.10"
-assert_parse "ffmpeg-128263-g9f9b9548583"  "ffmpeg" "128263-g9f9b9548583"
+assert_parse "ffmpeg-128263-g9f9b9548583-lgpl"  "ffmpeg" "128263-g9f9b9548583-lgpl"
 
 echo "== negative cases (real catalog) =="
 assert_reject "nosuchkind-1.0"

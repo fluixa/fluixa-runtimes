@@ -5,7 +5,7 @@
 # (single source of truth) and matched by the LONGEST "<kind>-" prefix, so
 # versions containing hyphens survive intact:
 #   python-3.11.10                    → python / 3.11.10
-#   ffmpeg-128263-g9f9b9548583        → ffmpeg / 128263-g9f9b9548583
+#   ffmpeg-128263-g9f9b9548583-lgpl   → ffmpeg / 128263-g9f9b9548583-lgpl
 # Never use ${TAG%-*}/${TAG#*-} — they split on ANY hyphen and corrupt
 # hyphenated versions (fixed 2026-11-03).
 #

@@ -76,15 +76,16 @@ the installer — the catalog itself stays pure metadata.
 |---|---|---|---|
 | python | 3.11.10 | darwin-x86_64 | **published, verified end-to-end** |
 | python | 3.11.10 | darwin-aarch64 / windows-x86_64 / linux-* | not built yet |
-| ffmpeg | 128263-g9f9b9548583 | darwin-x86_64 | **packaged + audited (ffmpeg+ffprobe pair), PENDING release** (see docs/ffmpeg-128263-g9f9b9548583.md) |
+| ffmpeg | 128263-g9f9b9548583-lgpl | darwin-x86_64 | **packaged + audited (ffmpeg+ffprobe pair), PENDING release** — **LGPL-only self-built** (see licenses/ffmpeg-lgpl/) |
 | ffmpeg | 128263-g9f9b9548583 | darwin-aarch64 / windows-x86_64 | not built yet (audited binaries required before entry) |
 | node | — | — | protocol-reserved only, no entries |
 
 `ffmpeg@128263-g9f9b9548583:darwin-x86_64` consumers (as of 2026-11-03):
 Fluixa main app — Screen Recording post-processing (GIF / frame extraction /
 trim / probe) — and the Media extension (image compress/resize/convert).
-The binaries are a **GPL-3+ build** — read
-`docs/ffmpeg-128263-g9f9b9548583.md` before publishing. Artifacts are
+The binary is the **LGPL-only self-built** runtime — see
+`licenses/ffmpeg-lgpl/` before publishing. (Historical GPL releases remain
+published upstream; their obligations are tracked separately.) Artifacts are
 produced by THIS repo's builder: `scripts/fetch-runtime.sh` (migrated from
 the media extension's `fetch-tools.sh` v2 — Info-API sourced,
 version-pinned, capability-gated; see `scripts/README.md`).

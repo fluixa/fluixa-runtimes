@@ -1,7 +1,8 @@
 # FFmpeg LGPL-only Runtime — 来源链与校验记录（Task H，2026-11-05）
 
-> 与历史 GPL Runtime（`../ffmpeg/`，tessus 构建）**并行共存**；本文档只覆盖
-> Fluixa 自建的 LGPL-only 构建。历史资料一字未动。
+> Fluixa 自建的 **LGPL-only** 构建的专属资料。历史 GPL Runtime（tessus 构建）
+> 的发行资料已于 2026-11-06 按 owner 决定清理（详见 fluixa work-log）；
+> 保留期间的全部取证与义务记录见各仓库 work-log / verification 文档。
 
 ## 分发产物
 
@@ -19,7 +20,7 @@
 
 ## 构建来源链（完美对应）
 
-1. **源码**：`../ffmpeg/FFmpeg-9f9b9548583.tar.gz`（与历史 GPL Runtime **同一 commit**
+1. **源码**：`FFmpeg-9f9b9548583.tar.gz`（与历史 GPL Runtime **同一 commit**
    `9f9b9548583ff7fbd633a5e6debe057d391f162c`，sha256 已在册）——源码对应关系与
    GPL 构建共享同一上游快照。
 2. **配置**（全文见 `BUILD_CONFIG.txt`，configure 输出与 `-buildconf` 逐字一致）：
@@ -58,12 +59,12 @@ LGPL 许可覆盖。构建环境无 nasm → `--disable-x86asm`（纯 C，无性
 | 其余 | decoders/filters/muxers/demuxers/protocols | 能力白名单全量存档 |
 | 功能回归 | `proof/functional/` | ffprobe/trim(-c copy)/GIF(palette)/PNG/JPEG/WebP/合流(copy)/MOV/VideoToolbox H264+HEVC 全 PASS；`-c:v libx264` → `Unknown encoder 'libx264'`（exit 8，显式失败） |
 
-## 与历史 GPL Runtime 的共存
+## 与历史 GPL Runtime 的关系（2026-11-06 清理后）
 
-- 历史 GPL 资料：`../ffmpeg/`（源码/BUILD_CONFIG/SOURCE/PATENT-NOTES/x264/x265
-  归档）**未移动、未删除、未覆盖**。
-- 历史 GPL 工件：`artifacts/ffmpeg/128263-g9f9b9548583/`、`artifacts/ffmpeg/9.0.1/`
-  保留；已发布 Release 不受影响。
-- Store 共存：两个版本可同时安装于 Runtime Store，由 CURRENT.json/版本解析决定
-  使用哪个；catalog 中 ffmpeg 条目已指向 LGPL 版本（推荐），GPL 版本从 catalog
-  移除但工件与义务材料完整保留。
+- 本仓库内历史 GPL 发行资料（`licenses/ffmpeg/`、旧工件归档、`docs/ffmpeg-*.md`）
+  已按 owner 决定**删除**；fluixa 主仓库扩展内置的 9.0.1-tessus GPL 副本同步移除。
+- **遗留事实**：GitHub/Gitee 上已发布的 GPL Release 归档仍在——其 GPLv3 §6 对应
+  源码义务的本地材料已随之删除，若需继续履行须以线上 Release 或重新获取源码为准
+  （见 fluixa work-log 遗留风险节）。
+- Runtime Store 中已安装的历史 GPL 实例（如有）不被本清理触碰；
+  catalog 现仅指向 LGPL-only 版本。

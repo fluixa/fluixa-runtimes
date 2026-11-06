@@ -116,30 +116,36 @@ frt_ffmpeg_validate_binary() {
     echo "$version_line"
 
     if ! echo "$version_line" | grep -q "$expected_version"; then
-        frt_error "$tool binary version does not match Info API version:"
-        frt_error "  binary: $version_line"
-        frt_error "  info:   $expected_version"
-        exit 2
+        # Self-built LGPL runtimes (Task H) print `8.0.git-fluixa-lgpl`, not the
+        # catalog version — evermeet Info API does not apply to them. Identity
+        # = the fluixa-lgpl extra-version marker (licenses/ffmpeg-lgpl/SOURCE.md).
+        if echo "$version_line" | grep -q "fluixa-lgpl" && [[ "$expected_version" == *-lgpl ]]; then
+            frt_ok "$tool is the Fluixa self-built LGPL build (extra-version marker)."
+        else
+            frt_error "$tool binary version does not match Info API version:"
+            frt_error "  binary: $version_line"
+            frt_error "  info:   $expected_version"
+            exit 2
+        fi
+    else
+        frt_ok "$tool version matches the Info API ($expected_version)."
     fi
-    frt_ok "$tool version matches the Info API ($expected_version)."
 
-    # License audit flags — GPL must stay a RECORDED FACT, never stripped.
+    # License audit flags — LGPL-only policy (Task H + 2026-11-06 cleanup):
+    # GPL/nonfree/x264-family flags must be ABSENT from any distributable build.
     if [ "$tool" = "ffmpeg" ]; then
         local conf
         conf="$("$bin" -version 2>/dev/null | grep '^configuration:')"
         frt_info "$tool configuration: $conf"
         local flag
-        for flag in --enable-gpl --enable-version3 --enable-libx264 --enable-libx265; do
+        for flag in --enable-gpl --enable-nonfree --enable-libx264 --enable-libx265 \
+                    --enable-libxvid --enable-libxavs --enable-libvidstab; do
             if echo "$conf" | grep -q -- "$flag"; then
-                frt_info "build flag present: $flag"
-            else
-                frt_warn "build flag absent: $flag (record in the audit doc)"
+                frt_error "GPL build flag present: $flag — LGPL-only policy violated. Abort."
+                exit 2
             fi
         done
-        if echo "$conf" | grep -q -- "--enable-nonfree"; then
-            frt_error "--enable-nonfree build — NOT distributable. Abort."
-            exit 2
-        fi
+        frt_ok "license audit: no GPL flags in configuration"
     fi
 }
 
@@ -164,10 +170,16 @@ frt_ffmpeg_validate_capabilities() {
         fi
     done
 
+    for enc in h264_videotoolbox hevc_videotoolbox libwebp; do
+        if "$ffmpeg" -hide_banner -encoders 2>/dev/null | grep -q " $enc "; then
+            frt_ok "encoder present: $enc"
+        else
+            frt_error "required encoder missing: $enc"
+            exit 2
+        fi
+    done
     if "$ffmpeg" -hide_banner -encoders 2>/dev/null | grep -q "libx264"; then
-        frt_ok "encoder present: libx264"
-    else
-        frt_error "required encoder missing: libx264"
+        frt_error "GPL encoder libx264 present — LGPL-only policy violated. Abort."
         exit 2
     fi
 
@@ -180,11 +192,12 @@ frt_ffmpeg_validate_capabilities() {
     # End-to-end probe: synth frame → encode → ffprobe stream info.
     local sample="$WORK/sample.mp4"
     if ! "$ffmpeg" -hide_banner -loglevel error -f lavfi -i testsrc=duration=1:size=128x96:rate=10 \
-            -c:v libx264 -pix_fmt yuv420p -y "$sample" 2>/dev/null; then
-        frt_error "end-to-end encode failed (lavfi/libx264)."
+            -c:v h264_videotoolbox -allow_sw 1 -pix_fmt yuv420p \
+            -y "$sample" 2>/dev/null; then
+        frt_error "end-to-end encode failed (lavfi/videotoolbox)."
         exit 2
     fi
-    frt_ok "end-to-end encode (lavfi → libx264 → mp4)."
+    frt_ok "end-to-end encode (lavfi → videotoolbox → mp4)."
 
     if ! "$ffprobe" -v error -select_streams v:0 \
             -show_entries stream=codec_name,width,height -of csv=p=0 "$sample" \
@@ -310,7 +323,7 @@ frt_ffmpeg_build() {
     }
 EOF
     echo
-    frt_info "License: GPL-3+ build (libx264/x265) — see docs/ffmpeg-*.md"
+    frt_info "License check: LGPL-only policy enforced (see licenses/ffmpeg-lgpl/)"
     frt_info "before publishing."
 }
 

@@ -24,7 +24,7 @@ scripts/
     ├── platform.sh       platform detection + BLOCKED/PENDING source matrix
     └── release_tag.sh    release-tag parser (catalog-kind longest-prefix;
                           hyphenated versions like
-                          ffmpeg-128263-g9f9b9548583 stay intact)
+                          ffmpeg-128263-g9f9b9548583-lgpl stay intact)
 └── tests/
     └── test_release_parse.sh   tag-parser tests (real catalog read-only +
                                 temp fixtures; no artifacts touched)
@@ -38,7 +38,7 @@ scripts/
 
 # ffmpeg: regression against the EXISTING local artifact — no download,
 # no overwrite (sha256 vs catalog, both binaries execute, version pair
-# matches, full capability gates: palettegen/paletteuse, libx264, mp4
+# matches, full capability gates: palettegen/paletteuse, videotoolbox+libwebp, no-GPL, mp4
 # encode → ffprobe read-back, GIF pipeline)
 ./scripts/fetch-runtime.sh ffmpeg local-verify
 
@@ -52,8 +52,8 @@ scripts/
 #   shared-assets     → assets/cacert.pem only
 #   media-tools       → assets/yt-dlp-zipimport only
 ./scripts/release.sh python-3.11.10
-./scripts/release.sh ffmpeg-128263-g9f9b9548583   # hyphenated version — OK
-./scripts/release.sh ffmpeg-128263-g9f9b9548583 --dry-run   # print, don't publish
+./scripts/release.sh ffmpeg-128263-g9f9b9548583-lgpl   # hyphenated version — OK
+./scripts/release.sh ffmpeg-128263-g9f9b9548583-lgpl --dry-run   # print, don't publish
 ./scripts/release.sh shared-assets --dry-run
 ./scripts/release.sh media-tools --dry-run
 
@@ -99,12 +99,12 @@ Keep this matrix in sync with `lib/platform.sh` and the audit docs
   `-version` build-id match, sha256.
 - License audit: GPL flags recorded as facts; `--enable-nonfree` aborts.
 - Capability gates (real execution, never version-string judgments):
-  palettegen + paletteuse filters, libx264 encoder, decoder-count sanity,
-  end-to-end `lavfi → libx264 → mp4 → ffprobe read-back`, real GIF
+  palettegen + paletteuse filters, videotoolbox/libwebp encoders, NO-GPL audit, decoder-count sanity,
+  end-to-end `lavfi → videotoolbox → mp4 → ffprobe read-back`, real GIF
   palette pipeline.
 - Catalog JSON snippet printed for review; artifact protection refuses to
   clobber existing release artifacts (use `--force` only after a
   documented re-audit).
-- GPL-3+ binaries: read `docs/ffmpeg-128263-g9f9b9548583.md` before
+- License audit enforces **LGPL-only** (GPL flags → abort); see `licenses/ffmpeg-lgpl/` before
   publishing — commercial redistribution needs legal review; LGPL build
   plan documented there too.

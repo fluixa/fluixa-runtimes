@@ -103,7 +103,7 @@ python3 scripts/verify_catalog.py --upstream
 scripts/release.sh python-3.11.10
 (scripts/release.sh <kind>-<version>)
 ```
-> 说明:kind就是如：artifacts/ffmpeg这个名称，版本号就是：artifacts/ffmpeg/128263-g9f9b9548583，其实就是2个目录的名称。如：scripts/release.sh ffmpeg-128263-g9f9b9548583
+> 说明:kind就是如：artifacts/ffmpeg这个名称，版本号就是：artifacts/ffmpeg/128263-g9f9b9548583-lgpl，其实就是2个目录的名称。如：scripts/release.sh ffmpeg-128263-g9f9b9548583-lgpl
 >
 > **资产按类发布（2026-11-03 修复）**：每个 Release 只携带自己类别的资产——
 > `python-<version>`→仅 python 工件；`ffmpeg-<version>`→仅 ffmpeg+ffprobe 工件；

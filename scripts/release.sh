@@ -42,7 +42,7 @@ case "$TAG" in
 
         # Parse <kind>-<version> against the CATALOG kinds (longest prefix
         # match). ${TAG%-*} would corrupt hyphenated versions like
-        # ffmpeg-128263-g9f9b9548583 → (ffmpeg-128263 / g9f9b9548583).
+        # ffmpeg-128263-g9f9b9548583-lgpl → (ffmpeg-128263-g9f9b9548583 / lgpl).
         PARSED="$(parse_release_tag "$TAG" catalog.json)" || {
             echo "ERROR: cannot resolve release tag '$TAG'." >&2
             exit 1

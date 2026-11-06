@@ -67,8 +67,8 @@ Unspecified fields are ignored by the consumer (serde default) but are
 5. No duplicate `(kind, version, platform, arch)`.
 6. Repo convention (this repo only): `python` entries require `interpreter` +
    `tool` entrypoints and a `ca_bundle`. `ffmpeg` entries require an
-   `ffmpeg` entrypoint (`ffprobe` optional while binaries with recorded
-   provenance are pending — see `docs/ffmpeg-9.0.1.md`).
+   `ffmpeg` entrypoint (`ffprobe` entrypoint (`ffprobe` required in the current
+   LGPL-only runtime — see `licenses/ffmpeg-lgpl/`).
 
 ## Python layout convention (pbs `install_only`)
 

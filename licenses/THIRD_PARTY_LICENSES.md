@@ -3,14 +3,12 @@
 > fluixa-runtimes 分发内容所依赖/包含的第三方资源汇总。
 > 机器可读版本：`manifest.json`。逐资源证据：各子目录 `SOURCE.md`。
 > 本清单只记录**版权许可**；编解码**专利**风险单列于
-> `ffmpeg/PATENT-NOTES.md`（专利 ≠ 许可证）。
+> `ffmpeg-lgpl/PATENT-NOTES.md`（专利 ≠ 许可证）。
 
 ## 汇总表
 
 | 资源 | 版本 | 上游 | SPDX | 许可证全文 | 版权归属 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
-| ffmpeg（Runtime） | `128263-g9f9b9548583`（N-128263-g9f9b9548583-tessus） | evermeet.cx tessus 构建；源码 FFmpeg/FFmpeg commit `9f9b9548583ff7fbd633a5e6debe057d391f162c` | `GPL-3.0-or-later` | `ffmpeg/LICENSE-GPL-3.0.txt` | the FFmpeg developers | ⚠ 需法律审查¹²³ |
-| ffmpeg（遗留 9.0.1，扩展内置副本来源，不在 catalog） | `9.0.1-tessus` | 同上 | `GPL-3.0-or-later` | `ffmpeg/LICENSE-GPL-3.0.txt` | the FFmpeg developers | ⚠ 需法律审查¹ |
 | python（Runtime） | `3.11.10`（pbs `20241016`） | astral-sh/python-build-standalone → python/cpython | `PSF-2.0` | `python/LICENSE-PSF-2.0.txt` | Python Software Foundation | ⚠ 需法律审查⁴ |
 | yt-dlp（zipapp，media-tools） | `2026.08.19` | yt-dlp/yt-dlp | `Unlicense` | `yt-dlp/LICENSE-Unlicense.txt` | 无（公有领域声明） | ⚠ 需法律审查⁵ |
 | cacert.pem（shared-assets） | certifi `2026.7.22` | certifi/python-certifi（内容：Mozilla CA 包） | `MPL-2.0` | `cacert/LICENSE-MPL-2.0.txt` | Mozilla contributors / certifi | ✅ 材料齐备 |
@@ -21,11 +19,11 @@
    x265（`4.2+37-b81f650e2`）**版本已实证、源码已归档**（Task G WS2，2026-11-04，
    证据：构建者官方库版本表 + 归档内 COPYING=GPLv2）；剩余 GPL 库
    （xvid/xavs/vidstab/rubberband）版本已实证、源码未归档。完整 43 项依赖清单见
-   `manifest.json` ffmpeg 条目 `dependencies`。
+   `manifest.json` ffmpeg-lgpl 条目 `dependencies`（仅 4 项；GPL 构建的 43 项清单已随历史资料清理）。
 2. **GPL 架构隔离**：桌面端以独立进程调用 ffmpeg，但"进程边界=分离作品"的结论
    必须由法律审查确认，本仓库不自动主张。
 3. **H.264/H.265 专利暴露**：x264/x265/openh264（源码静态编译，**不适用** Cisco
-   预编译二进制的专利授权）均无专利授权；详见 `ffmpeg/PATENT-NOTES.md`。
+   预编译二进制的专利授权）均无专利授权；详见 `ffmpeg-lgpl/PATENT-NOTES.md`。
    **使用侧核查（Task G WS1）**：产品实际 FFmpeg 链路（GIF/截帧/trim=`-c copy`/
    图片/元数据）零 H.264/H.265 编码；录屏 H.264 由系统 VideoToolbox 编码（与
    ffmpeg 无关）——详见 fluixa `docs/runtime/native-encoder-evaluation.md`。

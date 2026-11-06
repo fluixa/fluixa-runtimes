@@ -1,7 +1,7 @@
 {
   "spec_version": 1,
   "updated": "2026-11-05",
-  "note": " fluixa LGPL-only FFmpeg Runtime 的独立合规清单（Task H）。与历史 GPL Runtime（licenses/ffmpeg/、../manifest.json 的 ffmpeg/ffmpeg-legacy-9.0.1 条目）并行共存，历史资料与义务不受影响。verification_status 取值：VERIFIED / REVIEW_REQUIRED / BLOCKED。",
+  "note": " fluixa LGPL-only FFmpeg Runtime 的独立合规清单（Task H）。2026-11-06 起为本仓库唯一 FFmpeg Runtime（历史 GPL 发行资料已清理；远程已发布 Release 的义务见 fluixa work-log 遗留风险）。verification_status 取值：VERIFIED / REVIEW_REQUIRED / BLOCKED。",
   "resource": {
     "id": "ffmpeg-lgpl",
     "class": "runtime",
@@ -18,7 +18,7 @@
     "license_verdict_configure": "License: LGPL version 2.1 or later",
     "source_artifacts": [
       {
-        "path": "licenses/ffmpeg/FFmpeg-9f9b9548583.tar.gz",
+        "path": "licenses/ffmpeg-lgpl/FFmpeg-9f9b9548583.tar.gz",
         "sha256": "b904aab9749880027c68bded28849b93fcb0b04bcba032039ec874a4cee34184",
         "origin": "FFmpeg 本体源码 — 与 GPL 构建同 commit（共享归档）"
       },

@@ -20,15 +20,6 @@ licenses/
 ├── README.md                     # 本文件：原则与布局
 ├── THIRD_PARTY_LICENSES.md       # 人类可读的第三方清单汇总
 ├── manifest.json                 # 机器可读清单（资源→许可证/哈希/来源/状态）
-├── ffmpeg/
-│   ├── BUILD_CONFIG.txt          # 实际分发二进制的 -version/-buildconf 全文（2026-11-04 采集）
-│   ├── LICENSE-GPL-3.0.txt       # GPLv3 全文（gnu.org 官方文本）
-│   ├── FFmpeg-9f9b9548583.tar.gz # 匹配 commit 的上游源码（对应物，真实落盘）
-│   ├── x264-0480cb05.tar.gz      # x264 0.165.3223 匹配 commit 源码（Task G WS2 归档）
-│   ├── x265-b81f650e2.tar.gz     # x265 4.2+37 匹配 commit 源码（Task G WS2 归档）
-│   ├── evermeet-ffmpeg-build-info-2026-10-31.html # 构建者官方配置+库版本表（取证证据）
-│   ├── SOURCE.md                 # 来源链与校验记录
-│   └── PATENT-NOTES.md           # H.264/H.265/x264/x265 专利风险（独立于许可证）
 ├── ffmpeg-lgpl/                  # Task H：LGPL-only Runtime（与 ffmpeg/ 并行共存）
 │   ├── BUILD_CONFIG.txt          # 新二进制 -version/-buildconf 全文
 │   ├── LICENSE-LGPL-2.1.txt      # LGPL-2.1 官方全文（源码树 COPYING.LGPLv2.1）
